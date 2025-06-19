@@ -8,7 +8,7 @@ export class CompareFieldValidation implements Validation {
     ) {}
     validate(input: any): Error {
         if (input.body?.[this.fieldCompare] !== input.body?.[this.fieldName]) {
-            return new InvalidParamsError('senhas não coincidem')
+            return new InvalidParamsError('senhas não coincidem.')
         }
     }
 }

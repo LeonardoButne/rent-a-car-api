@@ -7,7 +7,4 @@
         "allowJs": true,
         "sourceMap": true
     },
-    // "exclude":[
-    //     "src/**/*.spec.ts"
-    // ]
 }

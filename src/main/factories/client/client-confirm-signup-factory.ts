@@ -9,11 +9,11 @@ import { VerifyOtpAdapter } from "../../utils/verify-otp-adapter";
 
 
 export const makeConfirmSignupUserController = (): Controller => {
-  const userRepository = new ClientSequelizeAdapter();
+  const clientRepository = new ClientSequelizeAdapter();
   const verifyOtpAdapter = new VerifyOtpAdapter();
 
-  const getAccountByEmail = new DbGetAccountUserByEmail(userRepository);
-  const confirmSignupUser = new DbConfirmSignupUser(verifyOtpAdapter, userRepository);
+  const getAccountByEmail = new DbGetAccountUserByEmail(clientRepository);
+  const confirmSignupUser = new DbConfirmSignupUser(verifyOtpAdapter, clientRepository);
 
   const validations = new ValidationComposite([
     new RequestFieldValidation('email'),

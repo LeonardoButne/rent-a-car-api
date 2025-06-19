@@ -1,11 +1,20 @@
-import { badRequest, ok } from '../../../../apresentation/helpers/http-helpers';
+import { badRequest, ok } from '../../../helpers/http-helpers';
 import { GetAccountClient } from '../../../../domain/usecases/user-usecases/get-account-client-by-id-usecase';
 import { Controller } from '../../../protocols/controller';
 import { HttpRequest, HttpResponse } from '../../../protocols/http';
+import { Validation } from '../../../protocols/validation';
 
-export class GetAccountUserByIdController implements Controller {
-  constructor(private readonly getAccountUser: GetAccountClient) {}
+export class GetAccountClientByIdController implements Controller {
+  constructor(
+    private readonly validation: Validation,
+    private readonly getAccountUser: GetAccountClient,
+  ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+    const error = this.validation.validate(httpRequest);
+    if (error) {
+      return badRequest(error);
+    }
+
     const userId = httpRequest.token?.sub;
 
     if (!userId) {
