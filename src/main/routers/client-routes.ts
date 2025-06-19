@@ -7,6 +7,7 @@ import { middlewareAdapter } from '../adapters/express-middleware-adapter';
 import { makeAuthUserMiddleware } from '../middlewares/db-load-user-by-token/db-load-user-by-token';
 import { makeVerifyLoginClientOtpController } from '../factories/client/verify-login-client-otp';
 import { makeLoginClientController } from '../factories/client/makeLoginClientController';
+import { makeResendOtpUserController } from '../factories/client/resend-otp-client-factory';
 
 const router = Router();
 const authUserMiddleware = middlewareAdapter(makeAuthUserMiddleware());
@@ -16,5 +17,6 @@ router.post('/signup/confirm', expressAdapterRouter(makeConfirmSignupUserControl
 router.get('/account', authUserMiddleware, expressAdapterRouter(makeGetAccountClientByIdController()));
 router.post('/login/verify-otp', expressAdapterRouter(makeVerifyLoginClientOtpController()));
 router.post('/login', expressAdapterRouter(makeLoginClientController()));
+router.post('/resend-otp-client', expressAdapterRouter(makeResendOtpUserController()));
 
 export default router;
