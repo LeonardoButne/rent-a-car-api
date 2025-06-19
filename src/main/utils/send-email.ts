@@ -13,16 +13,12 @@ export class SendEmailAdapter implements SendEmail {
         body?: string,
     ): void {
         const transporter = nodemailer.createTransport({
-            host: 'smtp.zoho.com',
-            // host: 'depro11.fcomet.com',
-            port: 465,
-            secure: true,
+            host: 'smtp.ethereal.email',
+            port: 587,
+            secure: false,
             auth: {
                 user,
                 pass,
-            },
-            tls: {
-                rejectUnauthorized: false
             }
         } as SMTPTransport.Options)
 
@@ -46,6 +42,7 @@ export class SendEmailAdapter implements SendEmail {
                 console.log(err)
             }
             console.log(info)
+            console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
         })
     }
 }

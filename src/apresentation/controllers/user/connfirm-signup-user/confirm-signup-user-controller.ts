@@ -1,29 +1,32 @@
-import { badRequest, noContent, serverError } from '../../../../apresentation/helpers/http-helpers'
+import { badRequest, noContent, ok, serverError } from '../../../../apresentation/helpers/http-helpers'
+import { VerifyOtpSignupClient } from '../../../../domain/usecases/user-usecases/confirm-signup-client-usecase'
+import { GetAccountClientByEmail } from '../../../../domain/usecases/user-usecases/get-account-client-by-email-usecase'
 import { DataNotFoundError } from '../../../errors/data-not-found-error'
 
 import { Controller } from '../../../protocols/controller'
 import { HttpRequest, HttpResponse } from '../../../protocols/http'
 import { Validation } from '../../../protocols/validation'
-import { VerifyOtpSignupUser } from '../../../../domain/usecases/user-usecases/confirm-signup-user-usecase'
-import { GetAccountUserByEmail } from '../../../../domain/usecases/user-usecases/get-account-user-by-email-usecase'
+
 
 export class ConfirmSignupUserController implements Controller {
   constructor(
     private readonly validation: Validation,
-    private readonly getAccountByemail: GetAccountUserByEmail,
-    private readonly verifyOtpSignup: VerifyOtpSignupUser,
+    private readonly getAccountByemail: GetAccountClientByEmail,
+    private readonly verifyOtpSignup: VerifyOtpSignupClient,
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest)
 
-      const { email, otp } = httpRequest.body
-
       if (error) {
         return badRequest(error)
       }
 
-      const account = await this.getAccountByemail.getAccountUserbyEmail(email)
+      const { email, otp } = httpRequest.body
+
+      
+
+      const account = await this.getAccountByemail.getAccountClientbyEmail(email)
 
       if (!account) {
         return badRequest(new DataNotFoundError(email))
@@ -35,7 +38,7 @@ export class ConfirmSignupUserController implements Controller {
         return badRequest(new Error('Codigo OTP não valido'))
       }
 
-      return noContent(verify)
+      return ok({email})
     } catch (error) {
       if (error.errors) {
         return serverError({

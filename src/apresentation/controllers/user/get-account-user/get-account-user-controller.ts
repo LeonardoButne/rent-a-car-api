@@ -1,10 +1,10 @@
 import { badRequest, ok } from '../../../../apresentation/helpers/http-helpers';
-import { GetAccountUser } from '../../../../domain/usecases/user-usecases/get-account-user-by-id-usecase';
+import { GetAccountClient } from '../../../../domain/usecases/user-usecases/get-account-client-by-id-usecase';
 import { Controller } from '../../../protocols/controller';
 import { HttpRequest, HttpResponse } from '../../../protocols/http';
 
 export class GetAccountUserByIdController implements Controller {
-  constructor(private readonly getAccountUser: GetAccountUser) {}
+  constructor(private readonly getAccountUser: GetAccountClient) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const userId = httpRequest.token?.sub;
 

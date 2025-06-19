@@ -51,7 +51,7 @@ Client.init(
     telephone: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
