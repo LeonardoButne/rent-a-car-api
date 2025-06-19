@@ -1,12 +1,12 @@
-import { LoadUserById } from '../../domain/usecases/user-usecases/load-user-by-token-usecase';
-import { JwtAdapter } from '../../infra/cryptograph/jwt/jwt-adpter';
+import { LoadClientById } from '../../domain/usecases/user-usecases/load-user-by-token-usecase';
+import { JwtAdapter } from '../../infraestruture/cryptograph/jwt/jwt-adpter';
 import { AccessDeniedError } from '../errors/access-denied-error';
 import { forbidden, ok, serverError } from '../helpers/http-helpers';
 import { HttpRequest, HttpResponse } from '../protocols';
 import { Middleware } from '../protocols/midleware';
 
 export class AuthUserMiddleware implements Middleware {
-  constructor(private readonly loadUserByToken: LoadUserById) {}
+  constructor(private readonly loadClientById: LoadClientById) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const jwt = new JwtAdapter(process.env.JWTSECRET_KEY);

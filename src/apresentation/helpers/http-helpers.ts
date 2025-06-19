@@ -27,9 +27,13 @@ export const send = (data: any): HttpResponse => ({
 })
 
 export const badRequest = (error: Error): HttpResponse => ({
-  statusCode: 400,
-  body: error,
+    statusCode: 400,
+    body: {
+        name: error.name,
+        message: error.message
+    }
 })
+
 export const unAuthorizedError = (data: string): HttpResponse => ({
   statusCode: 401,
   body: new UnauthorizedError(data),

@@ -1,0 +1,41 @@
+import { badRequest, created, serverError } from '../../../../apresentation/helpers/http-helpers'
+import { SignupClient } from '../../../../domain/usecases/user-usecases/signup-client-usecase'
+
+import { Controller } from '../../../protocols/controller'
+import { HttpRequest, HttpResponse } from '../../../protocols/http'
+import { Validation } from '../../../protocols/validation'
+
+export class SignupClientController implements Controller {
+    constructor(
+        private readonly validation: Validation,
+        private readonly signupClient: SignupClient,
+    ) {}
+    async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+        try {
+            const error = this.validation.validate(httpRequest)
+            const { name, email, password, lastName, telephone} = httpRequest.body
+
+            if (error) {                
+                return badRequest(error)
+            }
+
+            const add = await this.signupClient.add({
+                name,
+                lastName,
+                telephone,
+                email,
+                password,
+            })
+
+            return created(add)
+        } catch (error) {
+            if (error.errors) {
+                return serverError({
+                    erro: error?.errors?.map((err: any) => err?.message),
+                })
+            } else {
+                return serverError({ error })
+            }
+        }
+    }
+}
