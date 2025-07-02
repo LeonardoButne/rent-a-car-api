@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 import sequelizeConnection from '../../config/config';
 import { DataTypes, Model, type Optional } from 'sequelize';
 
@@ -12,6 +11,7 @@ export interface ClientAttributes {
   typeAccount?: string;
   statusAccount?: boolean;
   secretKey?: string;
+  isSuspended?: boolean;
 }
 
 export interface ClientInput extends Optional<ClientAttributes, 'id'> {}
@@ -27,6 +27,7 @@ export class Client extends Model<ClientAttributes, ClientInput> implements Clie
   declare typeAccount: string;
   declare statusAccount: boolean;
   declare secretKey: string;
+  declare isSuspended: boolean;
   declare readonly createdAt?: Date;
   declare readonly updatedAt?: Date;
 }
@@ -77,11 +78,16 @@ Client.init(
       allowNull: false,
       defaultValue: '#',
     },
+    isSuspended: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     timestamps: true,
     sequelize: sequelizeConnection,
     paranoid: true,
-    tableName: 'user',
+    tableName: 'clients',
   },
-); 
+);

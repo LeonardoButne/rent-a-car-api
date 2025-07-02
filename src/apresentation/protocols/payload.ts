@@ -4,4 +4,5 @@ export type Payload = {
     sub?: string
     statusAccount: boolean
     email?: string
+    typeAccount?: string // 'admin' | 'owner' | 'client'
 }

@@ -1,12 +1,12 @@
-import { VerifyOtpLoginClientController } from '../../../apresentation/controllers/user/login-client/verify-otp-login-user-controller';
+import { VerifyOtpLoginClientController } from '../../../apresentation/controllers/client/verify-otp-login-client-controller';
 import { Controller } from '../../../apresentation/protocols';
 import { Validation } from '../../../apresentation/protocols/validation';
 import { EmailValidation } from '../../../apresentation/validations/email-validation';
 import { RequestFieldValidation } from '../../../apresentation/validations/request-field-validation';
 import { ValidationComposite } from '../../../apresentation/validations/validation-composite';
-import { DbVerifyOtpLogin } from '../../../data/usecases/user/db-verify-otp-login';
+import { DbVerifyOtpLogin } from '../../../data/usecases/client/db-verify-otp-login';
 import { JwtAdapter } from '../../../infraestruture/cryptograph/jwt/jwt-adpter';
-import { ClientSequelizeAdapter } from '../../../infraestruture/database/user-sequelize-adpter';
+import { ClientSequelizeAdapter } from '../../../infraestruture/database/client-sequelize-adapter';
 import { EmailValidationAdapter } from '../../utils/email-validation-adapter';
 import { VerifyOtpAdapter } from '../../utils/verify-otp-adapter';
 

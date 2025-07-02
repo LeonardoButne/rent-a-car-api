@@ -1,0 +1,1 @@
+{"version":3,"file":"db-list-subscriptions.js","sourceRoot":"","sources":["../../../../src/data/usecases/administrator/db-list-subscriptions.ts"],"names":[],"mappings":";;;AAIA,MAAa,mBAAmB;IACC;IAA7B,YAA6B,2BAAoD;QAApD,gCAA2B,GAA3B,2BAA2B,CAAyB;IAAG,CAAC;IACrF,KAAK,CAAC,iBAAiB;QACnB,OAAO,IAAI,CAAC,2BAA2B,CAAC,iBAAiB,EAAE,CAAC;IAChE,CAAC;CACJ;AALD,kDAKC"}

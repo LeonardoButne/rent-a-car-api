@@ -1,18 +1,18 @@
-import { SignupClientController } from "../../../apresentation/controllers/user/signup-user/signup-user-controler";
-import { Controller } from "../../../apresentation/protocols";
-import { Validation } from "../../../apresentation/protocols/validation";
-import { CompareFieldValidation } from "../../../apresentation/validations/compare-field-validation";
-import { EmailValidation } from "../../../apresentation/validations/email-validation";
-import { RequestFieldValidation } from "../../../apresentation/validations/request-field-validation";
-import { ValidationComposite } from "../../../apresentation/validations/validation-composite";
-import { DbSignupUser } from "../../../data/usecases/user/db-signup-client";
-import { BcryptAdapter } from "../../../infraestruture/cryptograph/encrypty/bcrypt-adapter";
-import { ClientSequelizeAdapter } from "../../../infraestruture/database/user-sequelize-adpter";
-import { SendEmailSignupClientDecorator } from "../../decorators/send-email-decorator";
-import { EmailValidationAdapter } from "../../utils/email-validation-adapter";
-import { GenerateOtpAdapter } from "../../utils/generate-otp-adpater";
-import { GenarateSecretAdapter } from "../../utils/generate-secret-adapter";
-import { SendEmailAdapter } from "../../utils/send-email";
+import { SignupClientController } from '../../../apresentation/controllers/client/signup-client-controler';
+import { Controller } from '../../../apresentation/protocols';
+import { Validation } from '../../../apresentation/protocols/validation';
+import { CompareFieldValidation } from '../../../apresentation/validations/compare-field-validation';
+import { EmailValidation } from '../../../apresentation/validations/email-validation';
+import { RequestFieldValidation } from '../../../apresentation/validations/request-field-validation';
+import { ValidationComposite } from '../../../apresentation/validations/validation-composite';
+import { DbSignupUser } from '../../../data/usecases/client/db-signup-client';
+import { BcryptAdapter } from '../../../infraestruture/cryptograph/encrypty/bcrypt-adapter';
+import { ClientSequelizeAdapter } from '../../../infraestruture/database/client-sequelize-adapter';
+import { SendEmailSignupClientDecorator } from '../../decorators/send-email-decorator';
+import { EmailValidationAdapter } from '../../utils/email-validation-adapter';
+import { GenerateOtpAdapter } from '../../utils/generate-otp-adpater';
+import { GenarateSecretAdapter } from '../../utils/generate-secret-adapter';
+import { SendEmailAdapter } from '../../utils/send-email';
 
 export const makeSignupUserController = (): Controller => {
   const salt = 12;
@@ -22,16 +22,11 @@ export const makeSignupUserController = (): Controller => {
   const generateOtpAdapter = new GenerateOtpAdapter();
   const sendEmailAdapter = new SendEmailAdapter();
 
-  const signupUser = new DbSignupUser(
-    cryptoAdapter,
-    generateSecretAdapter,
-    userRepository,
-    generateOtpAdapter
-  );
+  const signupUser = new DbSignupUser(cryptoAdapter, generateSecretAdapter, userRepository, generateOtpAdapter);
 
   const validations: Validation[] = [];
 
-  for (const field of ['name','lastName','email', 'password', 'passwordConfirm', 'telephone']) {
+  for (const field of ['name', 'lastName', 'email', 'password', 'passwordConfirm', 'telephone']) {
     validations.push(new RequestFieldValidation(field));
   }
   validations.push(new CompareFieldValidation('password', 'passwordConfirm'));

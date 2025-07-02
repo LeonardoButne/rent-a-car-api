@@ -8,6 +8,11 @@ import { makeAuthUserMiddleware } from '../middlewares/db-load-user-by-token/db-
 import { makeVerifyLoginClientOtpController } from '../factories/client/verify-login-client-otp';
 import { makeLoginClientController } from '../factories/client/makeLoginClientController';
 import { makeResendOtpUserController } from '../factories/client/resend-otp-client-factory';
+import { makeListMyReservationsController } from '../factories/client/list-my-reservations-factory';
+import { makeGetReservationByIdController } from '../factories/client/get-reservation-by-id-factory';
+import { makeCancelReservationController } from '../factories/client/cancel-reservation-factory';
+import { makeEditReservationController } from '../factories/client/edit-reservation-factory';
+import { makeCreateReservationController } from '../factories/client/create-reservation-factory';
 
 const router = Router();
 const authUserMiddleware = middlewareAdapter(makeAuthUserMiddleware());
@@ -18,5 +23,12 @@ router.get('/account', authUserMiddleware, expressAdapterRouter(makeGetAccountCl
 router.post('/login/verify-otp', expressAdapterRouter(makeVerifyLoginClientOtpController()));
 router.post('/login', expressAdapterRouter(makeLoginClientController()));
 router.post('/resend-otp-client', expressAdapterRouter(makeResendOtpUserController()));
+
+// Rotas de reserva
+router.post('/reservations', authUserMiddleware, expressAdapterRouter(makeCreateReservationController()));
+router.get('/reservations/my', authUserMiddleware, expressAdapterRouter(makeListMyReservationsController()));
+router.get('/reservations/:reservationId', authUserMiddleware, expressAdapterRouter(makeGetReservationByIdController()));
+router.delete('/reservations/:reservationId', authUserMiddleware, expressAdapterRouter(makeCancelReservationController()));
+router.patch('/reservations/:reservationId', authUserMiddleware, expressAdapterRouter(makeEditReservationController()));
 
 export default router;

@@ -1,0 +1,1 @@
+{"version":3,"file":"db-list-clients.js","sourceRoot":"","sources":["../../../../src/data/usecases/administrator/db-list-clients.ts"],"names":[],"mappings":";;;AAIA,MAAa,aAAa;IACO;IAA7B,YAA6B,qBAA8C;QAA9C,0BAAqB,GAArB,qBAAqB,CAAyB;IAAG,CAAC;IAC/E,KAAK,CAAC,WAAW;QACb,OAAO,IAAI,CAAC,qBAAqB,CAAC,WAAW,EAAE,CAAC;IACpD,CAAC;CACJ;AALD,sCAKC"}

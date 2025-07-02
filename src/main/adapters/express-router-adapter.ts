@@ -25,6 +25,7 @@ export const expressAdapterRouter = (controller: Controller) => {
       body: req.body,
       query: req.query,
       file: req.file,
+      files: req.files,
       params: req.params,
       token: req.token,
     };
@@ -33,7 +34,9 @@ export const expressAdapterRouter = (controller: Controller) => {
     if (httpResponse.statusCode === 201 || httpResponse.statusCode === 200 || httpResponse.statusCode === 500) {
       res.status(httpResponse.statusCode).json(httpResponse.body);
     } else {
-      res.status(httpResponse.statusCode).json({ error: httpResponse.body.message });
+      res.status(httpResponse.statusCode).json({ 
+        error: httpResponse.body?.message || (typeof httpResponse.body === 'string' ? httpResponse.body : JSON.stringify(httpResponse.body)) || 'Erro desconhecido'
+      });
     }
   };
 };

@@ -1,0 +1,1 @@
+{"version":3,"file":"db-suspend-client.js","sourceRoot":"","sources":["../../../../src/data/usecases/administrator/db-suspend-client.ts"],"names":[],"mappings":";;;AAGA,MAAa,eAAe;IACK;IAA7B,YAA6B,uBAAgD;QAAhD,4BAAuB,GAAvB,uBAAuB,CAAyB;IAAG,CAAC;IACjF,KAAK,CAAC,aAAa,CAAC,QAAgB;QAChC,OAAO,IAAI,CAAC,uBAAuB,CAAC,aAAa,CAAC,QAAQ,CAAC,CAAC;IAChE,CAAC;CACJ;AALD,0CAKC"}

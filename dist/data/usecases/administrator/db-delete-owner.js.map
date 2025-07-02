@@ -1,0 +1,1 @@
+{"version":3,"file":"db-delete-owner.js","sourceRoot":"","sources":["../../../../src/data/usecases/administrator/db-delete-owner.ts"],"names":[],"mappings":";;;AAGA,MAAa,aAAa;IACO;IAA7B,YAA6B,qBAA8C;QAA9C,0BAAqB,GAArB,qBAAqB,CAAyB;IAAG,CAAC;IAC/E,KAAK,CAAC,WAAW,CAAC,OAAe;QAC7B,OAAO,IAAI,CAAC,qBAAqB,CAAC,WAAW,CAAC,OAAO,CAAC,CAAC;IAC3D,CAAC;CACJ;AALD,sCAKC"}

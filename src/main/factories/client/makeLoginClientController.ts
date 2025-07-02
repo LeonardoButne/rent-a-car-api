@@ -1,16 +1,16 @@
-import { LoginClientController } from '../../../apresentation/controllers/user/login-client/login-client-controller';
 import { Controller } from '../../../apresentation/protocols';
 import { Validation } from '../../../apresentation/protocols/validation';
 import { RequestFieldValidation } from '../../../apresentation/validations/request-field-validation';
 import { ValidationComposite } from '../../../apresentation/validations/validation-composite';
-import { DbAuthenticateClient } from '../../../data/usecases/user/db-authenticate-client';
-import { Authenticate } from '../../../domain/usecases/user-usecases/authenticate-client-usecase';
+import { DbAuthenticateClient } from '../../../data/usecases/client/db-authenticate-client';
+import { Authenticate } from '../../../domain/usecases/client-usecases/authenticate-client-usecase';
 import { BcryptAdapter } from '../../../infraestruture/cryptograph/encrypty/bcrypt-adapter';
-import { ClientSequelizeAdapter } from '../../../infraestruture/database/user-sequelize-adpter';
 import { SendEmailSignupClientDecorator } from '../../decorators/send-email-decorator';
 import { GenerateOtpAdapter } from '../../utils/generate-otp-adpater';
 import { SendEmailAdapter } from '../../utils/send-email';
 import { JwtAdapter } from '../../../infraestruture/cryptograph/jwt/jwt-adpter';
+import { LoginClientController } from '../../../apresentation/controllers/client/login-client-controller';
+import { ClientSequelizeAdapter } from '../../../infraestruture/database/client-sequelize-adapter';
 
 export const makeLoginClientController = (): Controller => {
   // 1 - Infra - Adapters

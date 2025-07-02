@@ -1,11 +1,11 @@
-import { ResendOTPUserController } from '../../../apresentation/controllers/user/resend-otp-client/resend-otp-client-controller';
+import { ResendOTPUserController } from '../../../apresentation/controllers/client/resend-otp-client-controller';
 import { Controller } from '../../../apresentation/protocols';
 import { Validation } from '../../../apresentation/protocols/validation';
 import { EmailValidation } from '../../../apresentation/validations/email-validation';
 import { RequestFieldValidation } from '../../../apresentation/validations/request-field-validation';
 import { ValidationComposite } from '../../../apresentation/validations/validation-composite';
-import { DbResendOtpUser } from '../../../data/usecases/user/db-resend-otp-client';
-import { ClientSequelizeAdapter } from '../../../infraestruture/database/user-sequelize-adpter';
+import { DbResendOtpUser } from '../../../data/usecases/client/db-resend-otp-client';
+import { ClientSequelizeAdapter } from '../../../infraestruture/database/client-sequelize-adapter';
 import { SendEmailSignupClientDecorator } from '../../decorators/send-email-decorator';
 import { EmailValidationAdapter } from '../../utils/email-validation-adapter';
 import { GenerateOtpAdapter } from '../../utils/generate-otp-adpater';

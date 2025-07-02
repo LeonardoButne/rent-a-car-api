@@ -1,4 +1,4 @@
-import { LoadClientById } from '../../domain/usecases/user-usecases/load-user-by-token-usecase';
+import { LoadClientById } from '../../domain/usecases/client-usecases/load-user-by-token-usecase';
 import { JwtAdapter } from '../../infraestruture/cryptograph/jwt/jwt-adpter';
 import { AccessDeniedError } from '../errors/access-denied-error';
 import { forbidden, ok, serverError } from '../helpers/http-helpers';
