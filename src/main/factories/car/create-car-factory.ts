@@ -11,7 +11,7 @@ export const makeCreateCarController = (): Controller => {
   const validations: Validation[] = [];
   for (const field of [
     'marca', 'modelo', 'ano', 'precoPorDia', 'precoPorSemana', 'precoPorMes',
-    'classe', 'quilometragem', 'lugares', 'transmissao', 'localizacao']) {
+    'classe', 'quilometragem', 'lugares', 'transmissao', 'localizacao', 'serviceType']) {
     validations.push(new RequestFieldValidation(field));
   }
   const validationComposite = new ValidationComposite(validations);

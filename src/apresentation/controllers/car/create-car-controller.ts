@@ -15,8 +15,6 @@ export class CreateCarController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
    
     try {
-      console.log('BODY:', httpRequest.body);
-      console.log('FILES:', httpRequest.files);
       const error = this.validation.validate(httpRequest);
       if (error) {
         return badRequest(error);
@@ -46,8 +44,6 @@ export class CreateCarController implements Controller {
         disponibilidade: httpRequest.body.disponibilidade === 'true' || httpRequest.body.disponibilidade === true,
       };
       const car = await this.createCar.add(carData);
-
-      
 
       return created(car);
     } catch (error) {

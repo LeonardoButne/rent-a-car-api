@@ -25,6 +25,7 @@ export interface CarAttributes {
   localizacao: string;
   seguro?: string;
   placa?: string;
+  serviceType: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -54,6 +55,7 @@ export class Car extends Model<CarAttributes, CarInput> implements CarAttributes
   declare localizacao: string;
   declare seguro?: string;
   declare placa?: string;
+  declare serviceType: string;
   declare readonly createdAt?: Date;
   declare readonly updatedAt?: Date;
 }
@@ -148,6 +150,10 @@ Car.init(
       type: DataTypes.STRING,
       allowNull: true,
       unique: true,
+    },
+    serviceType: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {

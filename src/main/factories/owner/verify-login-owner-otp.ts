@@ -9,6 +9,7 @@ import { JwtAdapter } from '../../../infraestruture/cryptograph/jwt/jwt-adpter';
 import { OwnerSequelizeAdapter } from '../../../infraestruture/database/owner-sequelize-adapter';
 import { EmailValidationAdapter } from '../../utils/email-validation-adapter';
 import { VerifyOtpAdapter } from '../../utils/verify-otp-adapter';
+import { DeviceSequelizeAdapter } from '../../../infraestruture/database/device-sequelize-adapter';
 
 export const makeVerifyLoginOwnerOtpController = (): Controller => {
   // 1 - Infrastructure layer (adapters/repos)
@@ -16,10 +17,11 @@ export const makeVerifyLoginOwnerOtpController = (): Controller => {
   const ownerRepository = new OwnerSequelizeAdapter();
   const verifyOtpAdapter = new VerifyOtpAdapter();
   const jwtAdapter = new JwtAdapter(process.env.JWTSECRET_KEY);
+  const deviceRepository = new DeviceSequelizeAdapter();
 
   // 2 - Use Case layer (domain logic)
 
-  const verifyOtpLoginUseCase = new DbVerifyOtpLoginOwner(ownerRepository, verifyOtpAdapter, jwtAdapter);
+  const verifyOtpLoginUseCase = new DbVerifyOtpLoginOwner(ownerRepository, verifyOtpAdapter, jwtAdapter, deviceRepository);
 
   // 3 - Validation layer
   const validations: Validation[] = [];

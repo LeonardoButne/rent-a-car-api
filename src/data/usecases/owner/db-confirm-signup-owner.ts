@@ -27,6 +27,8 @@ export class DbConfirmSignupOwner implements VerifyOtpSignupOwner {
                     isSuspended: account.isSuspended ?? false,
                     email: account.email,
                     typeAccount: account.typeAccount ?? 'owner',
+                    name: account.name,
+                    lastName: account.lastName,
                 }
                 return this.generateToken.token(payload)
             }

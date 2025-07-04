@@ -11,7 +11,7 @@ export class VerifyOtpLoginClientController implements Controller {
   ) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { otp, email } = httpRequest.body;
+      const { otp, email, deviceId } = httpRequest.body;
 
       const error = this.validation.validate(httpRequest);
 
@@ -19,7 +19,7 @@ export class VerifyOtpLoginClientController implements Controller {
         return badRequest(error);
       }
 
-      const token = await this.verifyOtpLoginForUser.verify(otp, email);
+      const token = await this.verifyOtpLoginForUser.verify(otp, email, deviceId);
 
       if (token === false) {
         return badRequest(new Error('Código Inválido'));

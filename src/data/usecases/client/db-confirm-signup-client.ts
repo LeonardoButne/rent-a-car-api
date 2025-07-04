@@ -24,6 +24,8 @@ export class DbConfirmSignupUser implements VerifyOtpSignupClient {
           statusAccount: account.statusAccount ?? true,
           email: account.email,
           typeAccount: account.typeAccount ?? 'client',
+          name: account.name,
+          lastName: account.lastName,
         };
         return this.generateToken.token(payload);
       }
