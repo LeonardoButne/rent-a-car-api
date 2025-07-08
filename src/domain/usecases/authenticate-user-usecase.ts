@@ -14,7 +14,8 @@ export type AuthenticateUserOutput =
       token: string;
     }
   | null
-  | false;
+  | false
+  | 'invalid_credentials';
 
 export interface AuthenticateUserUsecase {
   auth(data: AuthenticateUserInput): Promise<AuthenticateUserOutput>;

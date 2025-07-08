@@ -26,7 +26,7 @@ export class DbAuthenticateUser implements AuthenticateUserUsecase {
     let account = await this.clientRepository.getAccountByEmail(email);
     if (account) {
       const passwordMatch = await this.comparePassword.compare(password, account.password);
-      if (!passwordMatch) return null;
+      if (!passwordMatch) return 'invalid_credentials';
       if (account.statusAccount === false) return false;
       // Verifica device
       if (deviceId) {
@@ -71,7 +71,7 @@ export class DbAuthenticateUser implements AuthenticateUserUsecase {
     account = await this.ownerRepository.getAccountByEmail(email);
     if (account) {
       const passwordMatch = await this.comparePassword.compare(password, account.password);
-      if (!passwordMatch) return null;
+      if (!passwordMatch) return 'invalid_credentials';
       if (account.statusAccount === false) return false;
       if (deviceId) {
         const device = await this.deviceRepository.findDevice(account.id, 'owner', deviceId);

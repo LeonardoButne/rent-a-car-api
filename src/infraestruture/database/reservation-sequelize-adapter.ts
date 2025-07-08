@@ -7,6 +7,7 @@ import {
   CancelReservationRepository,
   EditReservationRepository,
   UpdateReservationStatusRepository,
+  ActivateReservationRepository,
 } from '../../data/repositories/reservation-repository';
 import { Client } from '../../domain/models/client';
 import { Owner } from '../../domain/models/owner';
@@ -21,7 +22,8 @@ export class ReservationSequelizeAdapter
     GetReservationByIdRepository,
     CancelReservationRepository,
     EditReservationRepository,
-    UpdateReservationStatusRepository
+    UpdateReservationStatusRepository,
+    ActivateReservationRepository
 {
   async add(data: Omit<ReservationAttributes, 'id' | 'createdAt' | 'updatedAt'>): Promise<ReservationAttributes> {
     const reservation = await Reservation.create(data as any);
@@ -90,11 +92,59 @@ export class ReservationSequelizeAdapter
     reservationId: string,
     ownerId: string,
     status: 'approved' | 'rejected'
-  ): Promise<boolean> {
+  ): Promise<ReservationAttributes | null> {
     const reservation = await Reservation.findOne({ where: { id: reservationId, ownerId, status: 'pending' } });
-    if (!reservation) return false;
+    if (!reservation) return null;
     reservation.status = status;
     await reservation.save();
-    return true;
+    return await Reservation.findByPk(reservationId, {
+      include: [
+        { model: Client, as: 'client', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Owner, as: 'owner', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Car, as: 'car', include: [{ model: CarImage, as: 'images' }] },
+      ]
+    })?.then(r => r?.toJSON() ?? null);
+  }
+
+  async activate(reservationId: string, clientId: string): Promise<ReservationAttributes | null> {
+    const reservation = await Reservation.findOne({ where: { id: reservationId, clientId, status: 'approved' } });
+    if (!reservation) return null;
+    reservation.status = 'active';
+    await reservation.save();
+    return await Reservation.findByPk(reservationId, {
+      include: [
+        { model: Client, as: 'client', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Owner, as: 'owner', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Car, as: 'car', include: [{ model: CarImage, as: 'images' }] },
+      ]
+    })?.then(r => r?.toJSON() ?? null);
+  }
+
+  async complete(reservationId: string, ownerId: string): Promise<ReservationAttributes | null> {
+    const reservation = await Reservation.findOne({ where: { id: reservationId, ownerId, status: 'active' } });
+    if (!reservation) return null;
+    reservation.status = 'completed';
+    await reservation.save();
+    return await Reservation.findByPk(reservationId, {
+      include: [
+        { model: Client, as: 'client', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Owner, as: 'owner', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Car, as: 'car', include: [{ model: CarImage, as: 'images' }] },
+      ]
+    })?.then(r => r?.toJSON() ?? null);
+  }
+
+  async finish(reservationId: string, clientId: string): Promise<ReservationAttributes | null> {
+    const reservation = await Reservation.findOne({ where: { id: reservationId, clientId, status: 'active' } });
+    if (!reservation) return null;
+    reservation.status = 'completed';
+    await reservation.save();
+    return await Reservation.findByPk(reservationId, {
+      include: [
+        { model: Client, as: 'client', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Owner, as: 'owner', attributes: { exclude: ['password', 'secretKey'] } },
+        { model: Car, as: 'car', include: [{ model: CarImage, as: 'images' }] },
+      ]
+    })?.then(r => r?.toJSON() ?? null);
   }
 } 

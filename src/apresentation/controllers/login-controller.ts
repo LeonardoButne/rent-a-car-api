@@ -22,6 +22,9 @@ export class LoginController implements Controller {
       if (result === false) {
         return unAuthorizedError('Conta inativa ou suspensa');
       }
+      if (result === 'invalid_credentials') {
+        return unAuthorizedError('Credenciais inválidas');
+      }
       if (result === null) {
         return {
           statusCode: 401,

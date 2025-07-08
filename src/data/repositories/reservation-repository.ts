@@ -33,5 +33,17 @@ export interface UpdateReservationStatusRepository {
     reservationId: string,
     ownerId: string,
     status: 'approved' | 'rejected'
-  ): Promise<boolean>;
+  ): Promise<ReservationAttributes | null>;
+}
+
+export interface ActivateReservationRepository {
+  activate(reservationId: string, clientId: string): Promise<ReservationAttributes | null>;
+}
+
+export interface CompleteReservationRepository {
+  complete(reservationId: string, ownerId: string): Promise<ReservationAttributes | null>;
+}
+
+export interface FinishReservationRepository {
+  finish(reservationId: string, clientId: string): Promise<ReservationAttributes | null>;
 } 

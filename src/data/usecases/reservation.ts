@@ -6,6 +6,7 @@ import {
   CancelReservation,
   EditReservation,
   UpdateReservationStatus,
+  CompleteReservation,
 } from '../../domain/usecases/reservation-usecases';
 import { ReservationAttributes } from '../../domain/models/reservation';
 import {
@@ -18,6 +19,8 @@ import {
   UpdateReservationStatusRepository,
 } from '../repositories/reservation-repository';
 import { CarSequelizeAdapter } from '../../infraestruture/database/car-sequelize-adapter';
+import { Reservation } from '../../domain/models/reservation';
+import { ReservationSequelizeAdapter } from '../../infraestruture/database/reservation-sequelize-adapter';
 
 export class DbCreateReservation implements CreateReservation {
   constructor(private readonly addReservationRepository: AddReservationRepository) {}
@@ -98,11 +101,14 @@ export class DbEditReservation implements EditReservation {
 
 export class DbUpdateReservationStatus implements UpdateReservationStatus {
   constructor(private readonly repo: UpdateReservationStatusRepository) {}
-  async updateStatus(
-    reservationId: string,
-    ownerId: string,
-    status: 'approved' | 'rejected'
-  ): Promise<boolean> {
-    return this.repo.updateStatus(reservationId, ownerId, status);
+  async updateStatus(reservationId: string, ownerId: string, status: 'approved' | 'rejected'): Promise<any> {
+    return await this.repo.updateStatus(reservationId, ownerId, status);
+  }
+}
+
+export class DbCompleteReservation implements CompleteReservation {
+  async complete(reservationId: string, ownerId: string): Promise<any> {
+    const repo = new ReservationSequelizeAdapter();
+    return await repo.complete(reservationId, ownerId);
   }
 } 

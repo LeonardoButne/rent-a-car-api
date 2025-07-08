@@ -18,6 +18,8 @@ import multer from 'multer';
 import { makeDeleteCarImageController } from '../factories/car/delete-car-image-factory';
 import { makeListReservationsController } from '../factories/owner/list-reservations-factory';
 import { makeUpdateReservationStatusController } from '../factories/owner/update-reservation-status-factory';
+import { makeApproveReservationController } from '../factories/owner/approve-reservation-factory';
+import { makeRejectReservationController } from '../factories/owner/reject-reservation-factory';
 
 
 const router = Router();
@@ -43,7 +45,8 @@ router.delete('/car/:carId/image/:imageId', authOwnerMiddleware, expressAdapterR
 // Rotas de reservas do owner
 router.get('/reservations', authOwnerMiddleware, expressAdapterRouter(makeListReservationsController()));
 router.patch('/reservations/:reservationId', authOwnerMiddleware, expressAdapterRouter(makeUpdateReservationStatusController()));
-
+router.patch('/reservations/:reservationId/approve', authOwnerMiddleware, expressAdapterRouter(makeApproveReservationController()));
+router.patch('/reservations/:reservationId/reject', authOwnerMiddleware, expressAdapterRouter(makeRejectReservationController()));
 
 
 

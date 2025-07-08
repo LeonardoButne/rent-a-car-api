@@ -11,7 +11,7 @@ export interface ReservationAttributes {
   ownerId: string;
   startDate: Date;
   endDate: Date;
-  status: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'completed';
+  status: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'active' | 'completed';
   price: number;
   notes?: string;
 }
@@ -26,7 +26,7 @@ export class Reservation extends Model<ReservationAttributes, ReservationInput> 
   declare ownerId: string;
   declare startDate: Date;
   declare endDate: Date;
-  declare status: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'completed';
+  declare status: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'active' | 'completed';
   declare price: number;
   declare notes?: string;
   declare readonly createdAt?: Date;
@@ -62,7 +62,7 @@ Reservation.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('pending', 'approved', 'rejected', 'cancelled', 'completed'),
+      type: DataTypes.ENUM('pending', 'approved', 'rejected', 'cancelled', 'active', 'completed'),
       allowNull: false,
       defaultValue: 'pending',
     },

@@ -7,6 +7,4 @@ export interface OwnerRepository {
     getAccountById(id: string): Promise<OwnerAttributes>
     loadOwnerById(id: string, role?: string): Promise<OwnerAttributes>
     updateStatusAccountOwner(email: string): Promise<boolean>
-
-
 }

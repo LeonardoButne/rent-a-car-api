@@ -6,12 +6,18 @@ import { ClientSequelizeAdapter } from '../../infraestruture/database/client-seq
 import { OwnerSequelizeAdapter } from '../../infraestruture/database/owner-sequelize-adapter';
 import { GenerateOtpAdapter } from '../utils/generate-otp-adpater';
 import { SendEmailAdapter } from '../utils/send-email';
+import { Validation } from '../../apresentation/protocols/validation';
+import { RequestFieldValidation } from '../../apresentation/validations/request-field-validation';
+import { EmailValidation } from '../../apresentation/validations/email-validation';
+import { EmailValidationAdapter } from '../utils/email-validation-adapter';
 
 export const makeResendOtpUserController = () => {
-  const validations = [];
+  const validations: Validation[] = [];
   for (const field of ['email']) {
-    validations.push(new RequiredFieldValidation(field));
+    validations.push(new RequestFieldValidation(field));
   }
+  validations.push(new EmailValidation('email', new EmailValidationAdapter()));
+
   const validationComposite = new ValidationComposite(validations);
 
   const clientRepository = new ClientSequelizeAdapter();

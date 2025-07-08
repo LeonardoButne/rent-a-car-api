@@ -45,4 +45,8 @@ export interface UpdateReservationStatus {
     ownerId: string,
     status: 'approved' | 'rejected'
   ): Promise<boolean>;
+}
+
+export interface CompleteReservation {
+  complete(reservationId: string, ownerId: string): Promise<boolean>;
 } 
