@@ -4,7 +4,7 @@ import { DataTypes, Model, Optional } from 'sequelize';
 export interface NotificationAttributes {
   id: string;
   userId: string;
-  type: 'reservation_request' | 'reservation_approved' | 'reservation_rejected';
+  type: 'reservation_request' | 'reservation_approved' | 'reservation_rejected' | 'reservation_cancelled';
   title: string;
   message: string;
   reservationId: string;
@@ -20,7 +20,7 @@ export interface NotificationOutput extends Required<NotificationAttributes> {}
 export class Notification extends Model<NotificationAttributes, NotificationInput> implements NotificationAttributes {
   declare id: string;
   declare userId: string;
-  declare type: 'reservation_request' | 'reservation_approved' | 'reservation_rejected';
+  declare type: 'reservation_request' | 'reservation_approved' | 'reservation_rejected' | 'reservation_cancelled';
   declare title: string;
   declare message: string;
   declare reservationId: string;
