@@ -3,11 +3,13 @@ import { Controller } from '../../protocols/controller';
 import { HttpRequest, HttpResponse } from '../../protocols/http';
 import { Validation } from '../../protocols/validation';
 import { CreateReservation } from '../../../domain/usecases/reservation-usecases';
+import { ReservationNotificationService } from '../../../services/reservation-notification-service';
 
 export class CreateReservationController implements Controller {
   constructor(
     private readonly validation: Validation,
     private readonly createReservation: CreateReservation,
+    private readonly reservationNotificationService: ReservationNotificationService,
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -29,6 +31,14 @@ export class CreateReservationController implements Controller {
         endDate,
         notes,
       });
+
+      // Notificação e push para o owner (delegado ao serviço)
+      await this.reservationNotificationService.notifyOwnerOnReservationCreated({
+        ownerId,
+        carId,
+        reservationId: reservation.id,
+      });
+
       return created(reservation);
     } catch (error) {
       return serverError({ error });

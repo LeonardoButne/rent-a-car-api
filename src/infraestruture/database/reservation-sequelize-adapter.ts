@@ -66,7 +66,7 @@ export class ReservationSequelizeAdapter
   }
 
   async cancel(reservationId: string, clientId: string): Promise<boolean> {
-    const reservation = await Reservation.findOne({ where: { id: reservationId, clientId, status: 'pending' } });
+    const reservation = await Reservation.findOne({ where: { id: reservationId, clientId, status: ['pending', 'approved'] } });
     if (!reservation) return false;
     reservation.status = 'cancelled';
     await reservation.save();

@@ -1,8 +1,8 @@
 import app from './config/app'
 
-const PORT = process.env.PORT || 4002
+const PORT = Number(process.env.PORT) || 4002
 
-app.listen(PORT, () => {
-  console.log(`Server run at http://localhost:${PORT}`)
-  console.log(`Swagger is run at http://localhost:${PORT}/api-docs`)
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running at http://localhost:${PORT}`)
+  console.log(`Swagger is running at http://localhost:${PORT}/api-docs`)
 })
