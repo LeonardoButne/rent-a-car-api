@@ -101,6 +101,10 @@ export class ReservationNotificationService {
             console.log('[ReservationNotificationService] Push sent to device', device.deviceId);
           } catch (pushError) {
             console.log('[ReservationNotificationService] Error sending push to device', device.deviceId, pushError);
+            if (pushError?.message?.includes('UNREGISTERED')) {
+              await this.deviceRepository.removeDevice(device.deviceId);
+              console.log('[ReservationNotificationService] Device token removido por estar UNREGISTERED:', device.deviceId);
+            }
           }
         }
       }

@@ -20,6 +20,7 @@ import { makeListReservationsController } from '../factories/owner/list-reservat
 import { makeUpdateReservationStatusController } from '../factories/owner/update-reservation-status-factory';
 import { makeApproveReservationController } from '../factories/owner/approve-reservation-factory';
 import { makeRejectReservationController } from '../factories/owner/reject-reservation-factory';
+import { makeDeviceTokenController } from '../factories/device-token-factory';
 
 
 const router = Router();
@@ -32,6 +33,7 @@ router.get('/account', authOwnerMiddleware, expressAdapterRouter(makeGetAccountO
 router.post('/login/verify-otp', expressAdapterRouter(makeVerifyLoginOwnerOtpController()));
 router.post('/login', expressAdapterRouter(makeLoginOwnerController()));
 router.post('/resend-otp-owner', expressAdapterRouter(makeResendOtpOwnerController()));
+router.post('/device-token', authOwnerMiddleware, expressAdapterRouter(makeDeviceTokenController()));
 
 
 //para gerir carros:

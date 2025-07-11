@@ -15,6 +15,7 @@ import { makeEditReservationController } from '../factories/client/edit-reservat
 import { makeCreateReservationController } from '../factories/client/create-reservation-factory';
 import { makeActivateReservationController } from '../factories/client/activate-reservation-factory';
 import { makeFinishReservationController } from '../factories/client/finish-reservation-factory';
+import { makeDeviceTokenController } from '../factories/device-token-factory';
 
 const router = Router();
 const authUserMiddleware = middlewareAdapter(makeAuthUserMiddleware());
@@ -25,6 +26,7 @@ router.get('/account', authUserMiddleware, expressAdapterRouter(makeGetAccountCl
 router.post('/login/verify-otp', expressAdapterRouter(makeVerifyLoginClientOtpController()));
 router.post('/login', expressAdapterRouter(makeLoginClientController()));
 router.post('/resend-otp-client', expressAdapterRouter(makeResendOtpUserController()));
+router.post('/device-token', authUserMiddleware, expressAdapterRouter(makeDeviceTokenController()));
 
 // Rotas de reserva
 router.post('/reservations', authUserMiddleware, expressAdapterRouter(makeCreateReservationController()));

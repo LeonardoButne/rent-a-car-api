@@ -6,9 +6,6 @@ const nr_aleatorio = (): number => Math.floor(Math.random() * 10000 + 10000);
 
 export default {
   fileFilter: (req: Request, file: Express.Multer.File, cb: FileFilterCallback): void => {
-    console.log('@@@@@@@@@@@@@@@@@@REQFILES', req.files)
-    console.log('@@@@@@@@@@@@@@@@@@REQBODY', req.body)
-    console.log('@@@@@@@@@@@@@@@@@@FILEEEEEE', file)
 
     const allowedImageTypes = [
       'image/png',

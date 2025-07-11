@@ -16,4 +16,8 @@ export class DeviceSequelizeAdapter implements DeviceRepository {
     const devices = await Device.findAll({ where: { userId, userType } });
     return devices.map(d => d.toJSON());
   }
+
+  async removeDevice(deviceId: string): Promise<void> {
+    await Device.destroy({ where: { deviceId } });
+  }
 } 

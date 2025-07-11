@@ -1,1 +1,0 @@
-{"version":3,"file":"generate-otp-adpater.js","sourceRoot":"","sources":["../../../src/main/utils/generate-otp-adpater.ts"],"names":[],"mappings":";;;;;;AACA,0DAAiC;AAEjC,MAAa,kBAAkB;IAC3B,GAAG,CAAC,MAAc,EAAE,MAAc,EAAE,IAAY;QAC5C,OAAO,mBAAS,CAAC,IAAI,CAAC;YAClB,MAAM;YACN,QAAQ,EAAE,QAAQ;YAClB,MAAM;YACN,IAAI,EAAE,IAAI;SACb,CAAC,CAAA;IACN,CAAC;CACJ;AATD,gDASC"}

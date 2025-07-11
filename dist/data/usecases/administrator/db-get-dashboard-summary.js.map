@@ -1,1 +1,0 @@
-{"version":3,"file":"db-get-dashboard-summary.js","sourceRoot":"","sources":["../../../../src/data/usecases/administrator/db-get-dashboard-summary.ts"],"names":[],"mappings":";;;AAGA,MAAa,qBAAqB;IACD;IAA7B,YAA6B,0BAAmD;QAAnD,+BAA0B,GAA1B,0BAA0B,CAAyB;IAAG,CAAC;IACpF,KAAK,CAAC,UAAU;QACZ,OAAO,IAAI,CAAC,0BAA0B,CAAC,UAAU,EAAE,CAAC;IACxD,CAAC;CACJ;AALD,sDAKC"}

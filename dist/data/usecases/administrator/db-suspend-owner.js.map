@@ -1,1 +1,0 @@
-{"version":3,"file":"db-suspend-owner.js","sourceRoot":"","sources":["../../../../src/data/usecases/administrator/db-suspend-owner.ts"],"names":[],"mappings":";;;AAGA,MAAa,cAAc;IACM;IAA7B,YAA6B,sBAA+C;QAA/C,2BAAsB,GAAtB,sBAAsB,CAAyB;IAAG,CAAC;IAChF,KAAK,CAAC,YAAY,CAAC,OAAe;QAC9B,OAAO,IAAI,CAAC,sBAAsB,CAAC,YAAY,CAAC,OAAO,CAAC,CAAC;IAC7D,CAAC;CACJ;AALD,wCAKC"}

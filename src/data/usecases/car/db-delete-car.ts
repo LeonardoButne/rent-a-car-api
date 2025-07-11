@@ -10,15 +10,26 @@ export class DbDeleteCar implements DeleteCar {
   constructor(private readonly carRepository: CarRepository) {}
 
   async delete(id: string): Promise<void> {
-    // 1. Buscar reservas pendentes/ativas desse carro
+    // 0. Bloquear se houver reservas aprovadas ou ativas
+    const ongoingReservations = await Reservation.findOne({
+      where: {
+        carId: id,
+        status: ['approved', 'active']
+      }
+    });
+    if (ongoingReservations) {
+      throw new Error('Não é possível remover este carro pois ele possui reservas em andamento ou aprovadas. O proprietário deve primeiro finalizar ou cancelar essas reservas.');
+    }
+
+    // 1. Buscar reservas pendentes desse carro
     const pendingReservations = await Reservation.findAll({
       where: {
         carId: id,
-        status: ['pending', 'approved']
+        status: ['pending']
       }
     });
 
-    // 2. Cancelar e notificar cada reserva
+    // 2. Cancelar e notificar cada reserva pendente
     const deviceRepo = new DeviceSequelizeAdapter();
     const notificationRepo = new NotificationSequelizeAdapter();
     const createNotification = new DbCreateNotification(notificationRepo);
@@ -31,7 +42,7 @@ export class DbDeleteCar implements DeleteCar {
       const message = 'Sua reserva foi cancelada porque o carro foi removido do sistema.';
       await createNotification.create({
         userId: reservation.clientId,
-        type: 'reservation_cancelled',
+        type: 'reservation_rejected', // Use um tipo permitido pelo ENUM do banco
         title,
         message,
         reservationId: reservation.id,
@@ -45,7 +56,7 @@ export class DbDeleteCar implements DeleteCar {
               device.deviceId,
               title,
               message,
-              { reservationId: reservation.id, type: 'reservation_cancelled' },
+              { reservationId: reservation.id, type: 'reservation_rejected' },
               { sound: 'default' }
             );
           } catch (e) {

@@ -10,4 +10,8 @@ export interface ListNotificationsByUser {
 
 export interface MarkNotificationAsRead {
   markAsRead(notificationId: string): Promise<boolean>;
+}
+
+export interface RegisterDeviceTokenUsecase {
+  register(params: { userId: string; userType: 'client' | 'owner'; deviceId: string }): Promise<void>;
 } 

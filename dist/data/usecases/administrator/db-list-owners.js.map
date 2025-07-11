@@ -1,1 +1,0 @@
-{"version":3,"file":"db-list-owners.js","sourceRoot":"","sources":["../../../../src/data/usecases/administrator/db-list-owners.ts"],"names":[],"mappings":";;;AAIA,MAAa,YAAY;IACQ;IAA7B,YAA6B,oBAA6C;QAA7C,yBAAoB,GAApB,oBAAoB,CAAyB;IAAG,CAAC;IAC9E,KAAK,CAAC,UAAU;QACZ,OAAO,IAAI,CAAC,oBAAoB,CAAC,UAAU,EAAE,CAAC;IAClD,CAAC;CACJ;AALD,oCAKC"}
