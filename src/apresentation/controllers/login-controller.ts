@@ -25,23 +25,28 @@ export class LoginController implements Controller {
       if (result === 'invalid_credentials') {
         return unAuthorizedError('Credenciais inválidas');
       }
-      if (result === null) {
+      if (result && typeof result === 'object' && 'otp_required' in result) {
         return {
           statusCode: 401,
           body: {
             otp_required: true,
-            message: 'OTP enviado para seu email. Por favor, verifique sua caixa de entrada.'
-          }
+            message: result['message'] || 'Seu e-mail ainda não foi verificado. Por favor, verifique sua caixa de entrada e insira o código de verificação.',
+          },
         };
       }
+      if (result === null) {
+        // Correção: não retornar otp_required, apenas erro genérico
+        return unAuthorizedError('Credenciais inválidas');
+      }
+      // Só retorna dados de usuário se não for otp_required
       return ok({
-        token: result.token,
-        role: result.role,
+        token: (result as any).token,
+        role: (result as any).role,
         user: {
-          id: result.id,
-          email: result.email,
-          name: result.name,
-          lastName: result.lastName,
+          id: (result as any).id,
+          email: (result as any).email,
+          name: (result as any).name,
+          lastName: (result as any).lastName,
         },
       });
     } catch (error) {

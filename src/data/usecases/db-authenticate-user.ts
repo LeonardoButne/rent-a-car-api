@@ -27,7 +27,19 @@ export class DbAuthenticateUser implements AuthenticateUserUsecase {
     if (account) {
       const passwordMatch = await this.comparePassword.compare(password, account.password);
       if (!passwordMatch) return 'invalid_credentials';
-      if (account.statusAccount === false) return false;
+      if (account.statusAccount === false) {
+        // Gera e envia o OTP ANTES de retornar
+        const otp = this.generateOtp.otp(account.secretKey, 6, 300);
+        globalConfig.saveData = otp;
+        this.sendEmail.send(
+          'Código OTP para login',
+          account.email,
+          process.env.EMAIL_SUPORT!,
+          process.env.PASS_SUPORT!,
+          `Por favor, insira o código OTP: <h1>${otp}</h1> no campo correspondente para continuar o login.`
+        );
+        return { otp_required: true, message: 'Seu e-mail ainda não foi verificado. Complete a verificação para acessar sua conta.' };
+      }
       // Verifica device
       if (deviceId) {
         const device = await this.deviceRepository.findDevice(account.id, 'client', deviceId);
@@ -65,14 +77,26 @@ export class DbAuthenticateUser implements AuthenticateUserUsecase {
         process.env.PASS_SUPORT!,
         `Por favor, insira o código OTP: <h1>${otp}</h1> no campo correspondente para continuar o login.`
       );
-      return null;
+      return { otp_required: true, message: 'Novo dispositivo detectado. Um código de verificação foi enviado para seu e-mail.' };
     }
     // 2. Tenta encontrar como owner
     account = await this.ownerRepository.getAccountByEmail(email);
     if (account) {
       const passwordMatch = await this.comparePassword.compare(password, account.password);
       if (!passwordMatch) return 'invalid_credentials';
-      if (account.statusAccount === false) return false;
+      if (account.statusAccount === false) {
+        // Gera e envia o OTP ANTES de retornar
+        const otp = this.generateOtp.otp(account.secretKey, 6, 300);
+        globalConfig.saveData = otp;
+        this.sendEmail.send(
+          'Código OTP para login',
+          account.email,
+          process.env.EMAIL_SUPORT!,
+          process.env.PASS_SUPORT!,
+          `Por favor, insira o código OTP: <h1>${otp}</h1> no campo correspondente para continuar o login.`
+        );
+        return { otp_required: true, message: 'Seu e-mail ainda não foi verificado. Complete a verificação para acessar sua conta.' };
+      }
       if (deviceId) {
         const device = await this.deviceRepository.findDevice(account.id, 'owner', deviceId);
         if (device) {
@@ -109,7 +133,7 @@ export class DbAuthenticateUser implements AuthenticateUserUsecase {
         process.env.PASS_SUPORT!,
         `Por favor, insira o código OTP: <h1>${otp}</h1> no campo correspondente para continuar o login.`
       );
-      return null;
+      return { otp_required: true, message: 'Novo dispositivo detectado. Um código de verificação foi enviado para seu e-mail.' };
     }
     // 3. Não encontrou em nenhuma tabela
     return null;

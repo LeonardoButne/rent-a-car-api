@@ -29,6 +29,15 @@ export class SignupClientController implements Controller {
 
       return created(add);
     } catch (error) {
+      if (error && typeof error === 'object' && 'otp_required' in error) {
+        return {
+          statusCode: 401,
+          body: {
+            otp_required: true,
+            message: error['message'] || 'E-mail já cadastrado, mas ainda não verificado. Complete a verificação.'
+          }
+        };
+      }
       if (error.errors) {
         return serverError({
           erro: error.errors.map((err: any) => err.message),

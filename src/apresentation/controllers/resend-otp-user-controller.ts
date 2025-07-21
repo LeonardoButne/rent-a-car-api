@@ -18,9 +18,9 @@ export class ResendOtpUserController implements Controller {
       }
       const result = await this.resendOtpUser.resend({ email });
       if (!result) {
-        return badRequest(new Error('Email não localizado'));
+        return badRequest(new Error('E-mail não localizado ou já verificado.'));
       }
-      return ok({ message: 'OTP reenviado com sucesso' });
+      return ok({ otp_required: true, message: 'Código de verificação reenviado para seu e-mail.' });
     } catch (error) {
       if (error.errors) {
         return serverError({

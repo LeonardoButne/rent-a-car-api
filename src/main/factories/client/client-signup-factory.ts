@@ -22,7 +22,7 @@ export const makeSignupUserController = (): Controller => {
   const generateOtpAdapter = new GenerateOtpAdapter();
   const sendEmailAdapter = new SendEmailAdapter();
 
-  const signupUser = new DbSignupUser(cryptoAdapter, generateSecretAdapter, userRepository, generateOtpAdapter);
+  const signupUser = new DbSignupUser(cryptoAdapter, generateSecretAdapter, userRepository, generateOtpAdapter, sendEmailAdapter);
 
   const validations: Validation[] = [];
 

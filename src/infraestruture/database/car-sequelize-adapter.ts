@@ -47,7 +47,6 @@ export class CarSequelizeAdapter implements CarRepository {
         existingImages = [];
       }
     }
-    console.log('existingImages:', existingImages);
     const car = await Car.findByPk(id, { include: [{ model: CarImage, as: 'images' }] });
 
     if (!car) {
@@ -64,10 +63,8 @@ export class CarSequelizeAdapter implements CarRepository {
     // Remover imagens que não estão em existingImageUrls
     if (existingImages && Array.isArray(existingImages)) {
       const carImages = await CarImage.findAll({ where: { carId: id } });
-      console.log('carImages:', carImages.map(img => img.fileName));
       // Extrai só os nomes dos arquivos das URLs recebidas do frontend
       const existingFileNames = existingImages.map((url: string) => url.split('/').pop());
-      console.log('existingFileNames:', existingFileNames);
 
       // PROTEÇÃO: se existingFileNames está vazio mas há imagens no banco, não remova nada!
       if (carImages.length > 0 && existingFileNames.length === 0) {
@@ -75,7 +72,6 @@ export class CarSequelizeAdapter implements CarRepository {
         // Não remove nada, apenas segue
       } else {
         const imagesToRemove = carImages.filter((img: any) => !existingFileNames.includes(img.fileName));
-        console.log('imagesToRemove:', imagesToRemove.map(img => img.fileName));
         for (const img of imagesToRemove) {
           // Remover do banco
           await CarImage.destroy({ where: { id: img.id } });

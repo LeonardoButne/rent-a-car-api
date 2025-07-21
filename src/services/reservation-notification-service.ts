@@ -23,12 +23,10 @@ export class ReservationNotificationService {
 
   async notifyOwnerOnReservationCreated({ ownerId, carId, reservationId }: NotifyOwnerOnReservationCreatedParams): Promise<void> {
     try {
-      console.log('[ReservationNotificationService] notifyOwnerOnReservationCreated called', { ownerId, carId, reservationId });
       const carRepo = new CarSequelizeAdapter();
       const car = await carRepo.getCarById(carId);
       const carInfo = car ? `${car.marca} ${car.modelo}` : 'um carro';
       const devices = await this.deviceRepository.listDevicesByUser(ownerId, 'owner');
-      console.log('[ReservationNotificationService] Devices found for owner', devices);
       const notificationData = {
         userId: ownerId,
         type: 'reservation_request' as 'reservation_request',
@@ -37,11 +35,9 @@ export class ReservationNotificationService {
         reservationId,
       };
       await this.createNotification.create(notificationData);
-      console.log('[ReservationNotificationService] Notification created in DB', notificationData);
       for (const device of devices) {
         if (device.deviceId) {
           try {
-            console.log('[ReservationNotificationService] Sending push to device', device.deviceId);
             await sendPushNotification(
               device.deviceId,
               notificationData.title,
@@ -49,7 +45,6 @@ export class ReservationNotificationService {
               { reservationId, type: 'reservation_request' },
               { sound: 'default' }
             );
-            console.log('[ReservationNotificationService] Push sent to device', device.deviceId);
           } catch (pushError) {
             console.log('[ReservationNotificationService] Error sending push to device', device.deviceId, pushError);
           }
@@ -63,9 +58,7 @@ export class ReservationNotificationService {
 
   async notifyClientOnReservationStatusChanged({ clientId, reservationId, status }: NotifyClientOnReservationStatusChangedParams): Promise<void> {
     try {
-      console.log('[ReservationNotificationService] notifyClientOnReservationStatusChanged called', { clientId, reservationId, status });
       const devices = await this.deviceRepository.listDevicesByUser(clientId, 'client');
-      console.log('[ReservationNotificationService] Devices found for client', devices);
       let notificationType: 'reservation_approved' | 'reservation_rejected';
       let title: string;
       let message: string;
@@ -86,11 +79,9 @@ export class ReservationNotificationService {
         reservationId,
       };
       await this.createNotification.create(notificationData);
-      console.log('[ReservationNotificationService] Notification created in DB', notificationData);
       for (const device of devices) {
         if (device.deviceId) {
           try {
-            console.log('[ReservationNotificationService] Sending push to device', device.deviceId);
             await sendPushNotification(
               device.deviceId,
               title,
@@ -98,12 +89,9 @@ export class ReservationNotificationService {
               { reservationId, type: notificationType },
               { sound: 'default' }
             );
-            console.log('[ReservationNotificationService] Push sent to device', device.deviceId);
           } catch (pushError) {
-            console.log('[ReservationNotificationService] Error sending push to device', device.deviceId, pushError);
             if (pushError?.message?.includes('UNREGISTERED')) {
               await this.deviceRepository.removeDevice(device.deviceId);
-              console.log('[ReservationNotificationService] Device token removido por estar UNREGISTERED:', device.deviceId);
             }
           }
         }

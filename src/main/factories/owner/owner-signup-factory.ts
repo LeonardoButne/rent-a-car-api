@@ -26,7 +26,8 @@ export const makeSignupOwnerController = (): Controller => {
     cryptoAdapter,
     generateSecretAdapter,
     ownerRepository,
-    generateOtpAdapter
+    generateOtpAdapter,
+    sendEmailAdapter
   );
 
   const validations: Validation[] = [];

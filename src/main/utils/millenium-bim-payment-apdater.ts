@@ -33,8 +33,6 @@ export class MillenuimBimPaymentAdapter implements MilleniumBim {
       .find((param: string) => param.startsWith('successIndicator='))
       ?.split('=')[1]
 
-    // console.log(baseUrl)s
-
     return {
       successIndicator,
       sessionId,

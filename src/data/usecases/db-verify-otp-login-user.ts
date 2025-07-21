@@ -23,6 +23,13 @@ export class DbVerifyOtpLoginUser implements VerifyOtpLoginUserUsecase {
     if (account) {
       const validateOtp = this.verifyOtp.isValid(account.secretKey, otp);
       if (!validateOtp) return false;
+      // Atualiza status para verificado
+      if (account.statusAccount === false) {
+        if (this.clientRepository.updateStatusAccountClient) {
+          await this.clientRepository.updateStatusAccountClient(email);
+          account.statusAccount = true;
+        }
+      }
       if (deviceId) {
         await this.deviceRepository.addDevice({
           userId: account.id,
@@ -47,6 +54,13 @@ export class DbVerifyOtpLoginUser implements VerifyOtpLoginUserUsecase {
     if (account) {
       const validateOtp = this.verifyOtp.isValid(account.secretKey, otp);
       if (!validateOtp) return false;
+      // Atualiza status para verificado
+      if (account.statusAccount === false) {
+        if (this.ownerRepository.updateStatusAccountOwner) {
+          await this.ownerRepository.updateStatusAccountOwner(email);
+          account.statusAccount = true;
+        }
+      }
       if (deviceId) {
         await this.deviceRepository.addDevice({
           userId: account.id,

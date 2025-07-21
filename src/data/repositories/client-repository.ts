@@ -3,9 +3,10 @@ import { ClientAttributes } from '../../domain/models/client';
 
 export interface AddAccountClientRepository {
   add(data: ClientWithoutId): Promise<ClientModel>;
+  getAccountByEmail(email: string): Promise<ClientModel | null>;
 }
 
-export interface GetAccountClientByEmailRepository {
+export interface GetAccountClientByEmailRepository extends UpdateStatusAccountClientRepository {
   getAccountByEmail(email: string): Promise<ClientModel>;
 }
 

@@ -13,6 +13,7 @@ export type AuthenticateUserOutput =
       role: 'client' | 'owner';
       token: string;
     }
+  | { otp_required: true; message: string }
   | null
   | false
   | 'invalid_credentials';

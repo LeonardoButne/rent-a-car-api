@@ -31,6 +31,16 @@ export class LoginOwnerController implements Controller {
         return unAuthorizedError(`Credenciais Inválidas`);
       }
 
+      if (login && typeof login === 'object' && 'otp_required' in login) {
+        return {
+          statusCode: 401,
+          body: {
+            otp_required: true,
+            message: login['message'] || 'Seu e-mail ainda não foi verificado. Complete a verificação para acessar sua conta.'
+          }
+        };
+      }
+
       // Agora o OTP foi gerado dentro do usecase, e o decorator enviará o OTP
       return ok({ message: 'OTP enviado com sucesso', email });
     } catch (error) {

@@ -1,5 +1,5 @@
 
 
 export const url = {
-    url: 'http://172.20.10.3:4002',
+    url: 'http://api.bxc.co.mz:4002',
 };

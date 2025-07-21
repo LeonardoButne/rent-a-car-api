@@ -23,7 +23,6 @@ export class ListNotificationsByUserController implements Controller {
           erro: error?.errors?.map((err: any) => err?.message),
         })
       } else {
-        console.log('[CreateReservationController] Internal error', error);
         return serverError({ error })
       }
     }
