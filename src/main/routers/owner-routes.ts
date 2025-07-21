@@ -13,7 +13,7 @@ import { makeCreateCarController } from '../factories/car/create-car-factory';
 import { makeListCarsByOwnerController } from '../factories/car/list-cars-by-owner-factory';
 import { makeUpdateCarController } from '../factories/car/update-car-factory';
 import { makeDeleteCarController } from '../factories/car/delete-car-factory';
-import multerConfig from '../../config/multerConfig';
+import multerConfig, { processImages } from '../../config/multerConfig';
 import multer from 'multer';
 import { makeDeleteCarImageController } from '../factories/car/delete-car-image-factory';
 import { makeListReservationsController } from '../factories/owner/list-reservations-factory';
@@ -21,6 +21,8 @@ import { makeUpdateReservationStatusController } from '../factories/owner/update
 import { makeApproveReservationController } from '../factories/owner/approve-reservation-factory';
 import { makeRejectReservationController } from '../factories/owner/reject-reservation-factory';
 import { makeDeviceTokenController } from '../factories/device-token-factory';
+import { makeListReviewsByOwnerController } from '../factories/review/list-reviews-by-owner-factory';
+import { makeListReviewsByCarController } from '../factories/review/list-reviews-by-car-factory';
 
 
 const router = Router();
@@ -38,9 +40,9 @@ router.post('/device-token', authOwnerMiddleware, expressAdapterRouter(makeDevic
 
 //para gerir carros:
 
-router.post('/create/car',authOwnerMiddleware,upload.array('images'), expressAdapterRouter(makeCreateCarController()));
+router.post('/create/car',authOwnerMiddleware,upload.array('images'), processImages, expressAdapterRouter(makeCreateCarController()));
 router.get('/my-cars',authOwnerMiddleware, expressAdapterRouter(makeListCarsByOwnerController()));
-router.patch('/car/:carId',authOwnerMiddleware, upload.array('images'),expressAdapterRouter(makeUpdateCarController()));
+router.patch('/car/:carId',authOwnerMiddleware, upload.array('images'), processImages, expressAdapterRouter(makeUpdateCarController()));
 router.delete('/car/:carId',authOwnerMiddleware, expressAdapterRouter(makeDeleteCarController()));
 router.delete('/car/:carId/image/:imageId', authOwnerMiddleware, expressAdapterRouter(makeDeleteCarImageController()));
 
@@ -50,6 +52,8 @@ router.patch('/reservations/:reservationId', authOwnerMiddleware, expressAdapter
 router.patch('/reservations/:reservationId/approve', authOwnerMiddleware, expressAdapterRouter(makeApproveReservationController()));
 router.patch('/reservations/:reservationId/reject', authOwnerMiddleware, expressAdapterRouter(makeRejectReservationController()));
 
+router.get('/reviews', authOwnerMiddleware, expressAdapterRouter(makeListReviewsByOwnerController()));
+router.get('/car/:carId/reviews', expressAdapterRouter(makeListReviewsByCarController()));
 
 
 export default router;

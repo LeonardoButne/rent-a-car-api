@@ -1,4 +1,4 @@
-import { NextFunction, Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import multer, { FileFilterCallback } from 'multer';
 import sharp from 'sharp';
 
@@ -36,41 +36,39 @@ export default {
 };
 
 // Novo middleware para processar imagens com Sharp
-export const processImages = async (req: Request, res: Response, next: NextFunction) => {
+export const processImages = (req: Request, res: Response, next: NextFunction): void => {
   if (!req.files || req.files.length === 0) {
     return next();
   }
 
-  try {
-    const processedFiles = await Promise.all(
-      (req.files as Express.Multer.File[]).map(async (file) => {
-        // Apenas processa imagens (ignora PDFs)
-        if (file.mimetype.startsWith('image/')) {
-          const optimizedImage = await sharp(file.buffer)
-            .resize({
-              width: 1920,
-              height: 1080,
-              fit: sharp.fit.inside,
-              withoutEnlargement: true
-            })
-            .jpeg({ quality: 80, mozjpeg: true }) // Para JPEG/JPG
-            .png({ quality: 80, compressionLevel: 9 }) // Para PNG
-            .webp({ quality: 80 }) // Para WEBP
-            .toBuffer();
-
-          return {
-            ...file,
-            buffer: optimizedImage,
-            size: optimizedImage.length
-          };
-        }
-        return file;
-      })
-    );
-
-    req.files = processedFiles;
-    next();
-  } catch (error) {
-    next(error);
-  }
+  Promise.all(
+    (req.files as Express.Multer.File[]).map(async (file) => {
+      if (file.mimetype.startsWith('image/')) {
+        const optimizedImage = await sharp(file.buffer)
+          .resize({
+            width: 1920,
+            height: 1080,
+            fit: sharp.fit.inside,
+            withoutEnlargement: true
+          })
+          .jpeg({ quality: 80, mozjpeg: true })
+          .png({ quality: 80, compressionLevel: 9 })
+          .webp({ quality: 80 })
+          .toBuffer();
+        return {
+          ...file,
+          buffer: optimizedImage,
+          size: optimizedImage.length
+        };
+      }
+      return file;
+    })
+  )
+    .then((processedFiles) => {
+      req.files = processedFiles;
+      next();
+    })
+    .catch((error) => {
+      next(error);
+    });
 };

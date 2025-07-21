@@ -16,6 +16,7 @@ import { makeCreateReservationController } from '../factories/client/create-rese
 import { makeActivateReservationController } from '../factories/client/activate-reservation-factory';
 import { makeFinishReservationController } from '../factories/client/finish-reservation-factory';
 import { makeDeviceTokenController } from '../factories/device-token-factory';
+import { makeCreateReviewController } from '../factories/review/create-review-factory';
 
 const router = Router();
 const authUserMiddleware = middlewareAdapter(makeAuthUserMiddleware());
@@ -36,6 +37,8 @@ router.delete('/reservations/:reservationId', authUserMiddleware, expressAdapter
 router.patch('/reservations/:reservationId', authUserMiddleware, expressAdapterRouter(makeEditReservationController()));
 router.patch('/reservations/:reservationId/activate', authUserMiddleware, expressAdapterRouter(makeActivateReservationController()));
 router.patch('/reservations/:reservationId/complete', authUserMiddleware, expressAdapterRouter(makeFinishReservationController()));
+
+router.post('/reviews', authUserMiddleware, expressAdapterRouter(makeCreateReviewController()));
 
 export default router;
   
